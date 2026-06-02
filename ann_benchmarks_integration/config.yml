@@ -1,0 +1,35 @@
+float:
+  euclidean:
+  - base_args: ['@metric']
+    constructor: AnnMultiprobe
+    docker_tag: ann-benchmarks-ann_multiprobe
+    module: ann_benchmarks.algorithms.ann_multiprobe
+    name: ann-multiprobe
+    run_groups:
+      # grid_dims x grid_splits are build-time (index) args.
+      # n_probe is query-time — one index serves all n_probe values.
+      multiprobe-d2:
+        args: [[2], [6, 8, 10]]
+        query_args: [[1, 2, 4, 8, 16]]
+      multiprobe-d3:
+        args: [[3], [6, 8, 10]]
+        query_args: [[1, 2, 4, 8, 16]]
+      multiprobe-d4:
+        args: [[4], [6, 8, 10]]
+        query_args: [[1, 2, 4, 8]]
+  angular:
+  - base_args: ['@metric']
+    constructor: AnnMultiprobe
+    docker_tag: ann-benchmarks-ann_multiprobe
+    module: ann_benchmarks.algorithms.ann_multiprobe
+    name: ann-multiprobe
+    run_groups:
+      multiprobe-d2:
+        args: [[2], [6, 8, 10]]
+        query_args: [[1, 2, 4, 8, 16]]
+      multiprobe-d3:
+        args: [[3], [6, 8, 10]]
+        query_args: [[1, 2, 4, 8, 16]]
+      multiprobe-d4:
+        args: [[4], [6, 8, 10]]
+        query_args: [[1, 2, 4, 8]]

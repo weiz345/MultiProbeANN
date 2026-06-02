@@ -1,0 +1,29 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python cache/build artifacts
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Editor settings
+.vscode/settings.json
+
+# MacOS metadata
+.DS_Store
+
+# Project generated artifacts
+*.png
+*.npy
+cache/*
+!cache/.gitkeep
+result/*
+!result/.gitkeep
+
+# Optuna experiment databases
+experiments_db/
