@@ -6,17 +6,15 @@ float:
     module: ann_benchmarks.algorithms.ann_multiprobe
     name: ann-multiprobe
     run_groups:
-      # grid_dims x grid_splits are build-time (index) args.
-      # n_probe is query-time — one index serves all n_probe values.
-      multiprobe-d2:
-        args: [[2], [6, 8, 10]]
+      # One representative operating point: a (grid_dims=6, grid_splits=5) index
+      # swept over n_probe. On glove-200-angular this reaches recall@10 ~ 0.78 at
+      # n_probe=16 (the paper's 0.80 reporting point); (6,2) with n_probe=4 reaches
+      # ~0.90. This single point is a quickstart, NOT the full Pareto front -- the
+      # per-dataset sweeps in the paper were derived via tuning/ (see
+      # docs/REPRODUCTION.md), then dropped in here as additional run_groups.
+      multiprobe-d6-g5:
+        args: [[6], [5]]
         query_args: [[1, 2, 4, 8, 16]]
-      multiprobe-d3:
-        args: [[3], [6, 8, 10]]
-        query_args: [[1, 2, 4, 8, 16]]
-      multiprobe-d4:
-        args: [[4], [6, 8, 10]]
-        query_args: [[1, 2, 4, 8]]
   angular:
   - base_args: ['@metric']
     constructor: AnnMultiprobe
@@ -24,12 +22,7 @@ float:
     module: ann_benchmarks.algorithms.ann_multiprobe
     name: ann-multiprobe
     run_groups:
-      multiprobe-d2:
-        args: [[2], [6, 8, 10]]
+      # See the euclidean block above. (6,5) is a glove-200-angular operating point.
+      multiprobe-d6-g5:
+        args: [[6], [5]]
         query_args: [[1, 2, 4, 8, 16]]
-      multiprobe-d3:
-        args: [[3], [6, 8, 10]]
-        query_args: [[1, 2, 4, 8, 16]]
-      multiprobe-d4:
-        args: [[4], [6, 8, 10]]
-        query_args: [[1, 2, 4, 8]]

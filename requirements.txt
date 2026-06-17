@@ -1,5 +1,0 @@
-#requirements.txt
-numpy>=1.21.0
-scikit-learn>=1.0.0
-scipy>=1.7.0
-pytest>=7.0.0

@@ -1,0 +1,6 @@
+algorithm,metric,exponent,r_squared,n_points
+ann-multiprobe,alpha_d,-0.9191,0.9932,4
+voyager,alpha_d,-1.5151,0.9996,4
+pynndescent,alpha_d,-1.4633,0.9958,4
+annoy,alpha_d,-1.5847,0.9956,4
+faiss-ivf,alpha_d,-1.3836,0.9797,4

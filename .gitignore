@@ -25,5 +25,6 @@ cache/*
 result/*
 !result/.gitkeep
 
-# Optuna experiment databases
-experiments_db/
+# Generated benchmark/figure artifacts and Optuna studies
+results/
+*.db

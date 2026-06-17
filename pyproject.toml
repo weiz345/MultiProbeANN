@@ -14,9 +14,21 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Tuning + figure reproduction (host-side; the Docker image installs core only).
+repro = [
+    "h5py>=3.0.0",
+    "matplotlib>=3.4.0",
+    "optuna>=3.0.0",
+    "pyyaml>=5.4.0",
+]
 dev = [
     "pytest>=7.0.0",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+# src/ for the `ann` package; repo root for `tuning` and `reproduce`.
+pythonpath = ["src", "."]
+testpaths = ["tests"]

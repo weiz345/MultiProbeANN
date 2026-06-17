@@ -1,0 +1,21 @@
+# NSGA-II search over (pca_dims, grid_size, n_probe) for multiprobe on
+# glove-200-angular. This is how the paper's Pareto sweep was derived; run
+# tuning/optuna_search.py with this config, then tuning/extract_pareto_configs.py
+# to turn the resulting study into ann-benchmarks config.yml run_groups.
+#
+# hdf5_path and storage expand environment variables. Point ANN_BENCHMARKS_DIR
+# at your ann-benchmarks clone (the dataset auto-downloads on first benchmark run).
+
+hdf5_path: ${ANN_BENCHMARKS_DIR}/data/glove-200-angular.hdf5
+metric: angular
+
+optuna:
+  recall_k: 10
+  pca_dim_range: [2, 8]
+  grid_size_range: [2, 15]
+  n_probe_range: [1, 256]
+  n_trials: 200
+  brute_force_sample: 50
+  seed: 42
+  study_name: glove200_multiprobe_pareto
+  storage: sqlite:///results/studies/glove200.db
