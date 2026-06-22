@@ -25,6 +25,10 @@ cache/*
 result/*
 !result/.gitkeep
 
+# Committed documentation images (override the *.png ignore above)
+!docs/img/
+!docs/img/*.png
+
 # Generated benchmark/figure artifacts and Optuna studies
 results/
 *.db

@@ -11,6 +11,12 @@ into an N-dimensional grid, and answers queries by probing the query's primary c
 plus its nearest neighboring cells (`n_probe`), ranked by wall distance, then
 re-ranking candidates in the native space.
 
+## Get started
+
+New here? Follow **[docs/TUTORIAL.md](docs/TUTORIAL.md)** to go from a clean
+machine to a real QPS-vs-recall Pareto front in about ten minutes. It runs the
+same workflow as the paper's Fig 1 on a small, fast dataset.
+
 ## Install
 
 ```bash
@@ -26,6 +32,11 @@ pip install -e .
 ```
 
 The core package depends only on `numpy`, `scikit-learn`, and `scipy`.
+
+This `environment.yml` env is enough to use the algorithm, run the tests, and
+re-plot from existing results. Running the Docker benchmark sweep yourself needs
+ann-benchmarks' own dependencies as well; [docs/TUTORIAL.md](docs/TUTORIAL.md)
+gives a one-environment recipe that covers both.
 
 ## Quickstart
 
@@ -84,7 +95,7 @@ python plot.py --dataset glove-100-angular -Y log
 
 The shipped `config.yml` defines a single representative operating point
 (`grid_dims=6, grid_splits=5` swept over `n_probe`). The full per-dataset Pareto
-sweeps used in the paper are regenerated with `tuning/` — see
+sweeps used in the paper are regenerated with `tuning/` -- see
 [docs/REPRODUCTION.md](docs/REPRODUCTION.md).
 
 ## Reproducing the paper figures
@@ -110,6 +121,34 @@ sweep with `reproduce/run_benchmarks.sh`, then render the figures with
 ├── configs/                      # tuning search configs
 ├── tests/                        # mirrored pytest suite
 └── docs/REPRODUCTION.md          # full reproduction walkthrough
+```
+
+## Citation
+
+If you use this code, please cite the paper:
+
+```bibtex
+@inproceedings{multiprobegrid2026,
+  title     = {Scaling Laws for Grid-Based Approximate Nearest Neighbor Search in High Dimensions},
+  author    = {TODO},
+  booktitle = {HiLD Workshop},
+  year      = {TODO},
+  note      = {TODO: eprint / URL},
+}
+```
+
+## Contact
+
+Questions and bug reports: please open an issue on
+[GitHub](https://github.com/weiz345/MultiProbeANN/issues).
+
+## Contributing
+
+Contributions are welcome. Open an issue to discuss a change, or send a pull
+request. Please run the test suite before submitting:
+
+```bash
+python -m pytest -q
 ```
 
 ## License
