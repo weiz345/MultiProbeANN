@@ -10,7 +10,10 @@ from scipy.optimize import linear_sum_assignment
 
 
 def cosine_vector(embeddings, vec):
-    dots = embeddings @ vec
+    # matmul trips spurious FP-flag RuntimeWarnings on macOS arm64 (Accelerate
+    # BLAS); the results are correct, so ignore the flags.
+    with np.errstate(divide="ignore", over="ignore", invalid="ignore"):
+        dots = embeddings @ vec
     denom = np.linalg.norm(embeddings, axis=1) * np.linalg.norm(vec) + 1e-8
     return dots / denom
 

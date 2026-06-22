@@ -61,7 +61,10 @@ class MultiProbeSimilarity(SimilarityBase):
     # Index construction
     def _init_multiprobe_backend(self, dims: int, splits: Tuple[int, ...]) -> None:
         pca = PCA(n_components=dims)
-        projected = pca.fit_transform(self.embeddings)
+        # PCA's internal matmuls trip spurious FP-flag RuntimeWarnings on macOS
+        # arm64 (Accelerate BLAS); the results are correct, so ignore the flags.
+        with np.errstate(divide="ignore", over="ignore", invalid="ignore"):
+            projected = pca.fit_transform(self.embeddings)
 
         # Store raw numpy arrays for fast manual projection at query time
         # (avoiding sklearn transform overhead per query)
@@ -179,7 +182,10 @@ class MultiProbeSimilarity(SimilarityBase):
                 if self.embedding_norms is not None
                 else np.linalg.norm(candidate_vectors, axis=1)
             )
-            scores: np.ndarray = (candidate_vectors @ vec) / (d_q * d_c + 1e-9)
+            # matmul trips spurious FP-flag RuntimeWarnings on macOS arm64; see
+            # _init_multiprobe_backend. Results are correct, so ignore the flags.
+            with np.errstate(divide="ignore", over="ignore", invalid="ignore"):
+                scores: np.ndarray = (candidate_vectors @ vec) / (d_q * d_c + 1e-9)
 
             if len(scores) <= k:
                 top_k_local = np.argsort(scores)[::-1]
