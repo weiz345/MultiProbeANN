@@ -111,6 +111,27 @@ cp "$INTEGRATION_DIR/config.yml"  "$TARGET_DIR/"
 cp "$INTEGRATION_DIR/Dockerfile"  "$TARGET_DIR/"
 echo "  Copied module.py, config.yml, Dockerfile"
 
+# ── Preflight: ann-benchmarks deps + Docker daemon ───────────────────
+# install.py needs ann-benchmarks' own Python deps (the `docker` SDK) and a
+# running Docker daemon. These live in the ann-benchmarks environment, not in
+# this package's env -- fail with guidance instead of a stack trace.
+if ! python3 -c "import docker" >/dev/null 2>&1; then
+    echo ""
+    echo "Error: the active Python environment is missing ann-benchmarks'"
+    echo "       dependencies (no 'docker' module). Set up ann-benchmarks per its"
+    echo "       own instructions and run this from that environment, e.g.:"
+    echo "         pip install -r \"$ANN_BENCH/requirements.txt\""
+    echo "       (installing this package into that same env lets one env do"
+    echo "        everything: pip install -e /path/to/MultiProbeANN[repro])"
+    exit 1
+fi
+if ! docker info >/dev/null 2>&1; then
+    echo ""
+    echo "Error: the Docker daemon is not running. Start Docker (e.g. Docker"
+    echo "       Desktop) and re-run this script."
+    exit 1
+fi
+
 # ── Build Docker image ───────────────────────────────────────────────
 echo ""
 echo "Building Docker image (this may take a few minutes on first run) ..."

@@ -5,6 +5,9 @@ Reads ann-benchmarks result HDF5 files (set ANN_BENCHMARKS_DIR or pass
 --ann-benchmarks-dir) and plots QPS vs recall@10 for each algorithm. See
 docs/REPRODUCTION.md for how to generate the underlying runs.
 
+Defaults to glove-200-angular (the paper's Fig 1); pass --dataset to plot any
+other ann-benchmarks dataset, e.g. random-xs-20-angular for a fast pipeline check.
+
 Usage:
     python reproduce/fig1_pareto.py --ann-benchmarks-dir /path/to/ann-benchmarks
 """
@@ -25,18 +28,21 @@ from _common import (  # noqa: E402
 )
 
 ALGO_ORDER = ["ann-multiprobe", "voyager", "pynndescent", "annoy", "faiss-ivf", "bruteforce"]
-DATASET = "glove-200-angular"
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ann-benchmarks-dir", default=None,
                         help="path to ann-benchmarks clone (default: $ANN_BENCHMARKS_DIR)")
-    parser.add_argument("--output", default="fig1_pareto.png", help="output image path")
+    parser.add_argument("--dataset", default="glove-200-angular",
+                        help="ann-benchmarks dataset name (default: glove-200-angular)")
+    parser.add_argument("--output", default=None,
+                        help="output image path (default: fig1_pareto_<dataset>.png)")
     args = parser.parse_args()
 
+    output = args.output or f"fig1_pareto_{args.dataset}.png"
     ann_dir = resolve_ann_benchmarks_dir(args.ann_benchmarks_dir)
-    all_results = load_results(ann_dir, DATASET)
+    all_results = load_results(ann_dir, args.dataset)
     n_algos = len(set(r["algorithm"] for r in all_results))
     print(f"Loaded {len(all_results)} results across {n_algos} algorithms")
 
@@ -62,9 +68,9 @@ def main():
     ax.legend(fontsize=8, loc="upper right")
 
     plt.tight_layout()
-    plt.savefig(args.output, dpi=300, bbox_inches="tight")
+    plt.savefig(output, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f"saved {args.output}")
+    print(f"saved {output}")
 
 
 if __name__ == "__main__":
