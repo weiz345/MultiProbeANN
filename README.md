@@ -1,21 +1,18 @@
 # Multi-Probe Grid
 
-An implementation of **Multi-Probe Grid** for approximate nearest neighbor (ANN)
+An implementation of the Multiprobe Grid algorithm for approximate nearest neighbor (ANN)
 search, packaged for use with
 [ann-benchmarks](https://github.com/erikbern/ann-benchmarks). This is the
 reference code for the paper *Scaling Laws for Grid-Based Approximate Nearest
-Neighbor Search in High Dimensions* (HiLD workshop).
+Neighbor Search in High Dimensions* (HiLD workshop @ ICML 2026).
 
-The algorithm projects vectors into a low-dimensional space with PCA, buckets them
-into an N-dimensional grid, and answers queries by probing the query's primary cell
+The algorithm projects vectors into a low-dimensional space with principal component analysis (PCA), buckets them into an N-dimensional grid, and answers queries by probing the query's primary cell
 plus its nearest neighboring cells (`n_probe`), ranked by wall distance, then
 re-ranking candidates in the native space.
 
 ## Get started
 
-New here? Follow **[docs/TUTORIAL.md](docs/TUTORIAL.md)** to go from a clean
-machine to a real QPS-vs-recall Pareto front in about ten minutes. It runs the
-same workflow as the paper's Fig 1 on a small, fast dataset.
+Follow **[docs/TUTORIAL.md](docs/TUTORIAL.md)** to go from a clean slate to a real QPS-vs-recall Pareto front in about ten minutes. It runs the same workflow as the paper's Fig 1 but on a smaller dataset (Fashion MNIST) to facilitate a faster run.
 
 ## Install
 
@@ -130,10 +127,10 @@ If you use this code, please cite the paper:
 ```bibtex
 @inproceedings{multiprobegrid2026,
   title     = {Scaling Laws for Grid-Based Approximate Nearest Neighbor Search in High Dimensions},
-  author    = {TODO},
-  booktitle = {HiLD Workshop},
-  year      = {TODO},
-  note      = {TODO: eprint / URL},
+  author    = {Matthew J. Liu, Wei Hang Zheng, Vidhan Purohit, Siqi Xie, Chieh-En Li, Jerry Li, Noah Flynn},
+  booktitle = {4th Workshop in High-dimensional Learning Dynamics @ ICML},
+  year      = {2026},
+  note      = {https://openreview.net/pdf?id=KJy2nD8sYx},
 }
 ```
 

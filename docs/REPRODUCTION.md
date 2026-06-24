@@ -10,9 +10,8 @@ Grid-Based Approximate Nearest Neighbor Search in High Dimensions*:
 Both use only base datasets that ann-benchmarks auto-downloads; no subsampling is
 required. (The N-scaling panel, Fig 2a, is not included here.)
 
-For a fast first run on a small dataset, start with
-[TUTORIAL.md](TUTORIAL.md); this document reproduces the full paper figures and is
-the long path.
+For a fast first run on a small dataset (Fashion MNIST), start with
+[TUTORIAL.md](TUTORIAL.md). 
 
 Data flow:
 
@@ -27,7 +26,7 @@ results/<dataset>/10/<algo>/*.hdf5 ──▶ reproduce/fig1_pareto.py / fig2b_ds
 
 ## 0. Prerequisites and environments
 
-Reproduction spans two dependency sets, which trips people up:
+Reproduction spans two dependency sets:
 
 - **The benchmark sweep** runs inside ann-benchmarks, which is Docker-based. It
   needs ann-benchmarks' own Python deps (the `docker` SDK, etc.) **and a running
@@ -106,13 +105,13 @@ python reproduce/fig2b_dscaling.py  --ann-benchmarks-dir "$ANN_BENCHMARKS_DIR"
 per algorithm (multiprobe ≈ -0.92, the baselines ≈ -1.4 to -1.6) so you can
 sanity-check the Fig 2b crossover against our numbers.
 
-## Caveats
+## Notes
 
-- Absolute QPS is hardware-dependent and will not match the paper. Multiprobe is a
+- Absolute QPS is hardware-dependent. Multiprobe is a
   Python proof-of-concept, so its absolute throughput is conservative; the *trends*
   (log-linear Pareto, near-constant d-scaling vs steepening baselines) are the result.
 - With only the shipped single-point `config.yml` (skipping step 1), the multiprobe
-  curve in Fig 1 will be sparse -- run the tuning step for the full front.
+  curve in Fig 1 will be sparse. Please run the tuning step for the full front.
 - ann-benchmarks kills each algorithm container after a per-run timeout, default
   7200 s (2 hours; see `run.py --timeout` and `ann_benchmarks/runner.py`). On large
   datasets a near-full-scan config (high `n_probe` on a small grid, e.g. the
